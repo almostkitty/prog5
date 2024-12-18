@@ -63,4 +63,7 @@ def login():
 def profile():
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
-    return render_template('profile.html', username=user.username)
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+
+    return render_template('profile.html', username=user.username, bonus_level=user.bonus_level)
