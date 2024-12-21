@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var ws = new WebSocket("ws://localhost:8000/ws");
+
+        ws.onclose = function(event) {
+            console.log("WebSocket closed:", event);
+            alert("Connection closed!");
+        };
+
+        ws.onmessage = function(event) {
+            try {
+                var message = JSON.parse(event.data);
+                var output = document.getElementById("output");
+                output.innerHTML = JSON.stringify(message.currencies, null, 4);
+
+                document.getElementById("last-update").innerText = "Last Update: " + message.last_update;
+                document.getElementById("second-last-update").innerText = "Second Last Update: " + message.second_last_update;
+
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("client-id").innerText = Date.now().toString(36).substr(-9);
+        });
+    </script>
+</head>
+<body>    
+    <div class="update-times">
+        <p id="last-update">Last Update: ...</p>
+        <p id="second-last-update">Second Last Update: ...</p>
+    </div>
+
+    <p>ID: <span id="client-id"></span></p>
+    
+    <pre id="output">...</pre>
+</body>
+</html>
