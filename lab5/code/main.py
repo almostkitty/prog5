@@ -20,7 +20,7 @@ class CurrencyManager(metaclass=Singleton):
     def __init__(self):
         self.currencies = []
         self.last_request_time = 0
-        self.min_interval = 1
+        self.min_interval = 2
 
 
     def set_min_interval(self, interval: float):
@@ -31,9 +31,12 @@ class CurrencyManager(metaclass=Singleton):
 
 
     def get_currencies(self, currencies_ids_lst: list) -> list:
-        if time.time() - self.last_request_time < self.min_interval:
+        current_time = time.time()
+        # Проверяем, можно ли выполнять запрос
+        if current_time - self.last_request_time < self.min_interval:
             raise Exception(f"Запросы разрешено отправлять не чаще, чем каждые {self.min_interval} секунд.")
 
+        # Выполняем запрос к ЦБ РФ
         cur_res_str = requests.get('http://www.cbr.ru/scripts/XML_daily.asp')
         root = ET.fromstring(cur_res_str.content)
         valutes = root.findall("Valute")
@@ -46,15 +49,16 @@ class CurrencyManager(metaclass=Singleton):
                 valute_cur_val = _v.find('Value').text.replace(',', '.')
                 valute_charcode = _v.find('CharCode').text
 
-
+                # Разделяем значение на целую и дробную часть
                 decimal_value = Decimal(valute_cur_val)
                 whole_part = int(decimal_value // 1)
                 fractional_part = int((decimal_value % 1) * 10000)
 
                 result.append({valute_charcode: (valute_cur_name, (whole_part, fractional_part))})
 
+       
+        self.last_request_time = current_time
         self.currencies = result
-        self.last_request_time = time.time()
 
         return result
 
