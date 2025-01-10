@@ -23,8 +23,7 @@ class CurrenciesList(Component):
             charcode = valute.find('CharCode').text
             name = valute.find('Name').text
             value = float(valute.find('Value').text.replace(',', '.'))
-            nominal = int(valute.find('Nominal').text)
-            currencies[charcode] = {'name': name, 'value': value, 'nominal': nominal}
+            currencies[charcode] = {'name': name, 'value': value, 'nominal': 1}
         return currencies
 
 
