@@ -10,9 +10,9 @@
 
 3. Запуск команды:
 ![](images/step2_lab3.png)
-
-Получили новые папки:
-![](images/step3_lab3.png)
+  
+  Получили новые папки:
+  ![](images/step3_lab3.png)
 
 
 4. Вводим API-Токен и выгружаем на сайт test.pypi.org:
@@ -20,3 +20,4 @@
 
 4. Проверяем на сайте:
 ![](images/step5_lab1.png)
+https://test.pypi.org/project/WeatherDataUniLW3/
