@@ -12,6 +12,8 @@
 ![](images/step2_lab3.png)
 
 Получили новые папки:
+
+
 ![](images/step3_lab3.png)
 
 
