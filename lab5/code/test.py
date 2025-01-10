@@ -11,7 +11,7 @@ def currency_manager():
     return CurrencyManager()
 
 
-def test_set_and_get_min_interval(currency_manager):
+def test_set_and_get_min(currency_manager):
     """
     Тестирование установки и получения минимального интервала между запросами
     """
@@ -66,7 +66,7 @@ def test_get_currencies(mock_get, currency_manager):
 
 @patch("main.os.makedirs")
 @patch("main.plt.savefig")
-def test_visualize_currencies(mock_savefig, mock_makedirs, currency_manager):
+def test_visualize(mock_savefig, mock_makedirs, currency_manager):
     """
     Тестирование метода visualize_currencies.
     Проверяем, что графики сохраняются в правильную папку, 
@@ -89,9 +89,8 @@ def test_visualize_currencies(mock_savefig, mock_makedirs, currency_manager):
     mock_savefig.assert_called_once()
 
 
-
 @patch("main.time.time", side_effect=[0, 0.5])  # Мокаем время сначала 0, затем 0.5
-def test_get_currencies_too_frequent(mock_time, currency_manager):
+def test_too_frequent(mock_time, currency_manager):
     """Тестирование на частоту запросов"""
     currency_manager.set_min_interval(2)
     
