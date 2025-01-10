@@ -16,7 +16,7 @@ def test_set_and_get_min(currency_manager):
     Тестирование установки и получения минимального интервала между запросами
     """
     currency_manager.set_min_interval(5)
-    assert currency_manager.get_min_interval() == 5
+    assert currency_manager.get_min_interval() == 5, "Ошибка при установке/получении минимального интервала"
 
 
 @patch("main.requests.get")
@@ -61,7 +61,14 @@ def test_get_currencies(mock_get, currency_manager):
     ]
 
     # Проверяем, что результат совпадает с ожидаемым
-    assert result == expected_result
+    assert result == expected_result, "Ошибка с методом get_currencies"
+    
+    # Дополнительные проверки типов данных
+    assert isinstance(result, list), "Результат должен быть списком"
+    assert isinstance(result[0], dict), "Каждый элемент результата должен быть словарем"
+    assert 'AZN' in result[0], "Словарь должен содержать ключ AZN"
+    assert isinstance(result[0]['AZN'], tuple), "Значение для AZN должно быть кортежем"
+
 
 
 @patch("main.os.makedirs")
